@@ -1,8 +1,10 @@
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class Person {
+public class Person implements Serializable{
+    private final long serialVersionUID = 1L;
     public String name;
     private int age;
     private char sex;
@@ -74,12 +76,12 @@ public class Person {
 
     public String getBrothers() {
         if (this.father == null) {
-            return "нет братьев";
+            return "";
         }
         brothers = father.suns.stream().map(x -> x.name).filter(x -> !x.equals(this.name))
                 .collect(Collectors.joining(", "));
         if (brothers.isEmpty()) {
-            return "нет братьев";
+            return "";
         }
         return brothers;
 
@@ -87,12 +89,12 @@ public class Person {
 
     public String getSisters() {
         if (this.father == null) {
-            return "нет сестер";
+            return "";
         }
         sisters = father.daughters.stream().map(x -> x.name).filter(x -> !x.equals(this.name))
                 .collect(Collectors.joining(", "));
         if (sisters.isEmpty()) {
-            return "не сестер";
+            return "";
         }
         return sisters;
 

@@ -1,8 +1,10 @@
+import java.io.IOException;
 import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
         FamilyTree ft = new FamilyTree();
+        String filename = "file.data";
 
         HashSet<Person> persons = new HashSet<>();
         Person ruslan = new Person("Руслан", 60, 'm');
@@ -16,8 +18,6 @@ public class Main {
         Person karina = new Person("Карина", 12, 'f');
         Person larisa = new Person("Лариса", 2, 'f');
 
-
-
         persons.add(ivan);
         persons.add(olya);
         persons.add(sergey);
@@ -26,7 +26,6 @@ public class Main {
         persons.add(maria);
         persons.add(karina);
         persons.add(larisa);
-
 
         ruslan.setSpouse(luda);
         ivan.setParent(ruslan);
@@ -40,7 +39,32 @@ public class Main {
 
         // System.out.println(persons);
 
-        System.out.println(ft.showFamilyTree(boris));
+        // System.out.println(ft.showFamilyTree(boris));
+        // System.out.println(ft.showFamilyTree(karina));
+        // System.out.println(ft.showFamilyTree(ivan));
 
+        WriteReadFileClass wrf = new WriteReadFileClass();
+
+        try {
+            wrf.saveToFile(persons, filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HashSet<Person> newpersons = new HashSet<>();
+
+        try {
+            newpersons = wrf.loadFromFile(filename);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // for (Person p : persons) {
+        //     System.out.println(p);
+        // }
+
+        for (Person np : newpersons) {
+            System.out.println(np);
+        }
     }
 }
