@@ -1,11 +1,27 @@
+package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class FamilyTree implements Serializable {
+public class FamilyTree implements Serializable, Iterable<Person> {
     private final long serialVersionUID = 1L;
+
+    private List<Person> family;
+
+    public FamilyTree() {
+        this.family = new ArrayList<>();
+    }
     
+    
+    public void addPerson(Person p) {
+        this.family.add(p);
+    }
+
     public String getChildren(Person person){        
         HashSet<Person> children = new HashSet<>();
         children.addAll(person.suns);
@@ -30,6 +46,14 @@ public class FamilyTree implements Serializable {
         return p;
     }
 
+    public void sortByName() {
+        Collections.sort(family, (p1, p2) -> p1.getName().compareTo(p2.getName()));
+    }
+
+    public void sortByAge() {
+        Collections.sort(family, (p1, p2) -> Integer.compare(p1.getAge(), p2.getAge()));
+    }
+
     public String showFamilyTree(Person person){
         StringBuilder sb = new StringBuilder();
         sb.append("Меня зовут ").append(person.name).append(". ");
@@ -49,5 +73,12 @@ public class FamilyTree implements Serializable {
         return sb.toString();
     }
 
+    @Override
+    public Iterator<Person> iterator() {
+        return family.iterator();
+    }
 
+
+    
+  
 }

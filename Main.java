@@ -1,12 +1,21 @@
 import java.io.IOException;
-import java.util.HashSet;
+import model.FamilyTree;
+import model.Person;
+import service.WriteReadFileClass;
 
 public class Main {
+
+    public static void printFamily(FamilyTree family) {
+        for (Person p : family) {
+            System.out.println(p);
+        }
+    }
+
     public static void main(String[] args) {
         FamilyTree ft = new FamilyTree();
         String filename = "file.data";
 
-        HashSet<Person> persons = new HashSet<>();
+        
         Person ruslan = new Person("Руслан", 60, 'm');
         Person luda = new Person("Людмила", 58, 'f');
         Person ivan = new Person("Иван", 30, 'm');
@@ -18,14 +27,14 @@ public class Main {
         Person karina = new Person("Карина", 12, 'f');
         Person larisa = new Person("Лариса", 2, 'f');
 
-        persons.add(ivan);
-        persons.add(olya);
-        persons.add(sergey);
-        persons.add(boris);
-        persons.add(andrey);
-        persons.add(maria);
-        persons.add(karina);
-        persons.add(larisa);
+        ft.addPerson(ivan);
+        ft.addPerson(olya);
+        ft.addPerson(sergey);
+        ft.addPerson(boris);
+        ft.addPerson(andrey);
+        ft.addPerson(maria);
+        ft.addPerson(karina);
+        ft.addPerson(larisa);
 
         ruslan.setSpouse(luda);
         ivan.setParent(ruslan);
@@ -46,25 +55,38 @@ public class Main {
         WriteReadFileClass wrf = new WriteReadFileClass();
 
         try {
-            wrf.saveToFile(persons, filename);
+            wrf.saveToFile(ft, filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        HashSet<Person> newpersons = new HashSet<>();
+        FamilyTree family = new FamilyTree();
 
         try {
-            newpersons = wrf.loadFromFile(filename);
+            family = wrf.loadFromFile(filename);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        // for (Person p : persons) {
-        //     System.out.println(p);
-        // }
+    
 
-        for (Person np : newpersons) {
-            System.out.println(np);
-        }
+        printFamily(family);
+
+        family.sortByName();
+        System.out.println("");
+
+        printFamily(family);
+
+        family.sortByAge();
+
+        System.out.println();
+
+        printFamily(family);
+
+
+
+        // for (Person np : newpersons) {
+        //     System.out.println(np);
+        // }
     }
 }
